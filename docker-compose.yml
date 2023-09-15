@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: webserver
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+    ports:
+      - "8080:8080"
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: scheduler
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
